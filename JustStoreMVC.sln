@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustStoreMVC", "JustStoreMVC\JustStoreMVC.csproj", "{19F2DDAD-FE2D-4F45-97F4-CB20FC053BB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustStore.DataAccess", "JustStore.DataAccess\JustStore.DataAccess.csproj", "{A538E4A4-C96E-49B1-9B8B-7EB3251B6888}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustStore.Models", "JustStore.Models\JustStore.Models.csproj", "{EE3B9278-D2BE-461A-9687-0D292125033E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustStore.Utlity", "JustStore.Utlity\JustStore.Utlity.csproj", "{9CEEA34B-9347-444A-813C-792A10211E28}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19F2DDAD-FE2D-4F45-97F4-CB20FC053BB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F2DDAD-FE2D-4F45-97F4-CB20FC053BB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F2DDAD-FE2D-4F45-97F4-CB20FC053BB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F2DDAD-FE2D-4F45-97F4-CB20FC053BB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A538E4A4-C96E-49B1-9B8B-7EB3251B6888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A538E4A4-C96E-49B1-9B8B-7EB3251B6888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A538E4A4-C96E-49B1-9B8B-7EB3251B6888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A538E4A4-C96E-49B1-9B8B-7EB3251B6888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE3B9278-D2BE-461A-9687-0D292125033E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE3B9278-D2BE-461A-9687-0D292125033E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE3B9278-D2BE-461A-9687-0D292125033E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE3B9278-D2BE-461A-9687-0D292125033E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CEEA34B-9347-444A-813C-792A10211E28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CEEA34B-9347-444A-813C-792A10211E28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CEEA34B-9347-444A-813C-792A10211E28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CEEA34B-9347-444A-813C-792A10211E28}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1BE63B78-8A34-4AA9-97F7-86BB417C5769}
+	EndGlobalSection
+EndGlobal

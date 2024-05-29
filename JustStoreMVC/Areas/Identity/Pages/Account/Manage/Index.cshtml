@@ -1,0 +1,54 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h3 class="border-bottom pb-3 mb-4 text-secondary text-center text-light">@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-12 ">
+        <form id="profile-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="row card-body">
+                <div class="form-floating mb-3 col-md-12">
+                    <input asp-for="Username" class="form-control" placeholder="Please choose your username." />
+                    <label asp-for="Username" class="ms-2"></label>
+                </div>
+                <div class="form-floating mb-3 col-md-6">
+                    <input asp-for="Input.Name" class="form-control" placeholder="Please enter your Name" />
+                    <label asp-for="Input.Name" class="ms-2"></label>
+                </div> 
+                <div class="form-floating mb-3 col-6">
+                    <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
+                    <label asp-for="Input.PhoneNumber" class="ms-2"></label>
+                </div>
+                <div class="form-floating mb-3 col-md-6">
+                    <input asp-for="Input.City" class="form-control" placeholder="Please enter your City." />
+                    <label asp-for="Input.City" class="ms-2"></label>
+                   
+                </div>    
+                <div class="form-floating mb-3 col-md-6">
+                    <input asp-for="Input.State" class="form-control" placeholder="Please enter your State."/>
+                    <label asp-for="Input.State" class="ms-2"></label>
+                </div>    
+                <div class="form-floating mb-3 col-md-6">
+                    <input asp-for="Input.PostalCode" class="form-control" placeholder="Please enter your postal code." />
+                    <label asp-for="Input.PostalCode" class="ms-2"></label>
+                </div>    
+                <div class="form-floating mb-3 col-md-6">
+                    <input asp-for="Input.StreetAdress" class="form-control" placeholder="Please enter your street adress." />
+                    <label asp-for="Input.StreetAdress" class="ms-2">Street Adress</label>
+                </div>
+                <div class="col-md-12">
+                    <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
