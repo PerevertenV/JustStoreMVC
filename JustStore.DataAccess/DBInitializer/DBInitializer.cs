@@ -46,8 +46,8 @@ namespace JustStore.DataAccess.DBInitializer
 
                 _userManager.CreateAsync(new ApplicationUser
                 {
-                    UserName = "pereverten.vadym@gmail.com",
-                    Email = "pereverten.vadym@gmail.com",
+                    UserName = "pv",
+                    Email = "pv@gmail.com",
                     Name = "Vadym",
                     PhoneNumber = "1234567890",
                     StreetAdress = "1234567890",
