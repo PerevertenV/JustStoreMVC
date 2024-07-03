@@ -46,7 +46,7 @@ namespace JustStore.DataAccess.DBInitializer
 
                 _userManager.CreateAsync(new ApplicationUser
                 {
-                    UserName = "pv",
+                    UserName = "pv@gmail.com",
                     Email = "pv@gmail.com",
                     Name = "Vadym",
                     PhoneNumber = "1234567890",
@@ -58,7 +58,7 @@ namespace JustStore.DataAccess.DBInitializer
                 }, "Aa123*").GetAwaiter().GetResult();
 
                 ApplicationUser user = _db.applicationUser.FirstOrDefault(u =>
-                     u.Email == "pereverten.vadym@gmail.com");
+                     u.Email == "pv@gmail.com");
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
             }
             return;

@@ -24,7 +24,8 @@ namespace JustStoreMVC.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<JustStore.Models.Product> productList = _unitOfWork.Product.GetAll(includeProperties:"Category");
+            IEnumerable<JustStore.Models.Product> productList = _unitOfWork.Product
+                .GetAll(includeProperties:"Category,ProductImages");
             return View(productList);
         }
         
@@ -33,7 +34,7 @@ namespace JustStoreMVC.Areas.Customer.Controllers
             ShoppingCart cart = new()
             {
                 Product = _unitOfWork.Product
-                .GetFirstOrDefault(u => u.ID == id, includeProperties: "Category"),
+                .GetFirstOrDefault(u => u.ID == id, includeProperties: "Category,ProductImages"),
                 Count = 1,
                 ProductId = id
             };

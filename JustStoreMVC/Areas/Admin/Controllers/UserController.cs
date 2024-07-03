@@ -15,12 +15,16 @@ namespace JustStoreMVC.Areas.Admin.Controllers
 	[Authorize(Roles = SD.Role_Admin)]
 	public class UserController : Controller
 	{
-		private readonly AplicationDBContextcs _db;
+
 		private readonly UserManager<IdentityUser> _um;
-		public UserController(AplicationDBContextcs db, UserManager<IdentityUser> um)
+		private readonly RoleManager<IdentityRole> _rm;
+		private readonly IUnitOfWork _unitOfWork;
+		public UserController(IUnitOfWork unitOfWork, UserManager<IdentityUser> um,
+			RoleManager<IdentityRole> rm)
 		{
-			_db = db;
+			_unitOfWork = unitOfWork;
 			_um = um;
+			_rm = rm;
 		}
 
 		public IActionResult Index()
@@ -30,42 +34,41 @@ namespace JustStoreMVC.Areas.Admin.Controllers
 
 		public IActionResult RoleManagment(string userId)
 		{
-			string RoleID = _db.UserRoles.FirstOrDefault(u => u.UserId == userId).RoleId;
-
 			RoleManagmentVM RoleVM = new RoleManagmentVM()
 			{
-				ApplicationUser = _db.applicationUser.Include(u => u.Company)
-					.FirstOrDefault(u => u.Id == userId),
+				ApplicationUser = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == userId,
+					includeProperties:"Company"),
 
-				RoleList = _db.Roles.Select(u => new SelectListItem
+                RoleList = _rm.Roles.Select(u => new SelectListItem
 				{
 					Text = u.Name,
 					Value = u.Name
 				}),
 
-				CompanyList = _db.CompanyUsers.Select(u => new SelectListItem
+				CompanyList = _unitOfWork.Company.GetAll().Select(u => new SelectListItem
 				{
 					Text = u.Name,
 					Value = u.Id.ToString()
 				})
 			};
 
-			RoleVM.ApplicationUser.Role = _db.Roles.FirstOrDefault(u => u.Id == RoleID).Name;
+			RoleVM.ApplicationUser.Role = _um.GetRolesAsync(_unitOfWork.ApplicationUser
+				.GetFirstOrDefault(u => u.Id == userId)).GetAwaiter().GetResult().FirstOrDefault();
 			return View(RoleVM);
 		}
 
 		[HttpPost]
 		public IActionResult RoleManagment(RoleManagmentVM rmvm) 
 		{
-			string RoleID = _db.UserRoles.FirstOrDefault(u => 
-				u.UserId == rmvm.ApplicationUser.Id).RoleId;
+			string oldRole = _um.GetRolesAsync(_unitOfWork.ApplicationUser
+				.GetFirstOrDefault(u => u.Id == rmvm.ApplicationUser.Id))
+				.GetAwaiter().GetResult().FirstOrDefault();
 
-			string oldRole = _db.Roles.FirstOrDefault(u => u.Id == RoleID).Name;
+            ApplicationUser applicationUser = _unitOfWork.ApplicationUser
+				.GetFirstOrDefault(u => u.Id == rmvm.ApplicationUser.Id);
 
-			if(!(rmvm.ApplicationUser.Role == oldRole)) 
+            if (!(rmvm.ApplicationUser.Role == oldRole)) 
 			{
-				ApplicationUser applicationUser = _db.applicationUser
-					.FirstOrDefault(u => u.Id == rmvm.ApplicationUser.Id);
 
 				if (rmvm.ApplicationUser.Role == SD.Role_Company) 
 				{
@@ -76,9 +79,22 @@ namespace JustStoreMVC.Areas.Admin.Controllers
 					applicationUser.CompanyId = null;
 				}
 
-				_db.SaveChanges();
+				_unitOfWork.ApplicationUser.Update(applicationUser);
+				_unitOfWork.save();
+
 				_um.RemoveFromRoleAsync(applicationUser, oldRole).GetAwaiter().GetResult();
 				_um.AddToRoleAsync(applicationUser, rmvm.ApplicationUser.Role).GetAwaiter().GetResult();
+
+			}
+			else 
+			{
+				if(oldRole == SD.Role_Company && 
+					applicationUser.CompanyId != rmvm.ApplicationUser.CompanyId) 
+				{
+					applicationUser.CompanyId = rmvm.ApplicationUser.CompanyId;
+					_unitOfWork.ApplicationUser.Update(applicationUser);
+					_unitOfWork.save();	
+				}
 			}
 
 			return RedirectToAction(nameof(Index));
@@ -89,15 +105,13 @@ namespace JustStoreMVC.Areas.Admin.Controllers
 		[HttpGet]
 		public IActionResult GetAll()
 		{
-            List<ApplicationUser> ObjectsFromDb = _db.applicationUser.Include(u=>u.Company).ToList();
-			
-			var userRoles = _db.UserRoles.ToList();
-			var roles = _db.Roles.ToList();
-
+            List<ApplicationUser> ObjectsFromDb = _unitOfWork.ApplicationUser
+				.GetAll(includeProperties:"Company").ToList();
+			 
 			foreach (var p in ObjectsFromDb) 
 			{
-				var roleID = userRoles.FirstOrDefault(u => u.UserId == p.Id).RoleId;
-				p.Role = roles.FirstOrDefault(u => u.Id == roleID).Name;
+		
+				p.Role = _um.GetRolesAsync(p).GetAwaiter().GetResult().FirstOrDefault();
 
 				if(p.Company == null) { p.Company = new() {Name = "" }; }
 			}
@@ -107,7 +121,7 @@ namespace JustStoreMVC.Areas.Admin.Controllers
 		[HttpPost]
 		public IActionResult LockUnlock([FromBody]string id)
 		{
-			var objFromDb = _db.applicationUser.FirstOrDefault(u => u.Id == id);
+			var objFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id);
 			if (objFromDb == null) 
 			{
                 return Json(new { succes = false, message = "Error while Locking/Unloking" });
@@ -121,7 +135,8 @@ namespace JustStoreMVC.Areas.Admin.Controllers
 			{
 				objFromDb.LockoutEnd = DateTime.Now.AddYears(1000);
             }
-			_db.SaveChanges();
+			_unitOfWork.ApplicationUser.Update(objFromDb);
+			_unitOfWork.save(); 
             return Json(new { success = true, message = "Operation successful"});
 
 		}

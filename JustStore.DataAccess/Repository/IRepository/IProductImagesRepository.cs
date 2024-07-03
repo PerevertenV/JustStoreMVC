@@ -7,8 +7,8 @@ using JustStore.Models;
 
 namespace JustStore.DataAccess.Repository.IRepository
 {
-	public interface IApplicationUserRepository : IRepository<ApplicationUser>
+	public interface IProductImagesRepository : IRepository<ProductImage>
 	{
-		public void Update(ApplicationUser applicationUser);
+		void Update(ProductImage obj);
 	}
 }

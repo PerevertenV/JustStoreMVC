@@ -12,20 +12,20 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JustStore.DataAccess.Migrations
 {
     [DbContext(typeof(AplicationDBContextcs))]
-    [Migration("20240211113009_AddOrderInfoToDb")]
-    partial class AddOrderInfoToDb
+    [Migration("20240624131129_initialMigrations")]
+    partial class initialMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("JustStore.Models.Categorycs", b =>
+            modelBuilder.Entity("JustStore.Models.Category", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -108,12 +108,12 @@ namespace JustStore.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            City = "Zhashkiv",
+                            City = "ZHmerenka",
                             Name = "SomeCompany",
-                            PhoneNumber = "+380954712339",
-                            PostalCode = "19201",
+                            PhoneNumber = "+38097472917",
+                            PostalCode = "191",
                             State = "Uk",
-                            StreetAdress = "Gidnosti 28"
+                            StreetAdress = "Gid 32"
                         });
                 });
 
@@ -198,6 +198,9 @@ namespace JustStore.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SessionId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ShippingDate")
                         .HasColumnType("datetime2");
 
@@ -243,10 +246,6 @@ namespace JustStore.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("ListPrice")
                         .HasColumnType("float");
 
@@ -278,7 +277,6 @@ namespace JustStore.DataAccess.Migrations
                             CategoryId = 1,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "SWD9999001",
-                            ImageUrl = "\\images\\product\\049e5cc8-2882-44a0-8e3b-6304887d569d.jpg",
                             ListPrice = 99.0,
                             Price = 90.0,
                             Price100 = 80.0,
@@ -292,7 +290,6 @@ namespace JustStore.DataAccess.Migrations
                             CategoryId = 1,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "CAW777777701",
-                            ImageUrl = "\\images\\product\\049e5cc8-2882-44a0-8e3b-6304887d569d.jpg",
                             ListPrice = 40.0,
                             Price = 30.0,
                             Price100 = 20.0,
@@ -306,7 +303,6 @@ namespace JustStore.DataAccess.Migrations
                             CategoryId = 1,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "RITO5555501",
-                            ImageUrl = "\\images\\product\\049e5cc8-2882-44a0-8e3b-6304887d569d.jpg",
                             ListPrice = 55.0,
                             Price = 50.0,
                             Price100 = 35.0,
@@ -320,7 +316,6 @@ namespace JustStore.DataAccess.Migrations
                             CategoryId = 3,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "WS3333333301",
-                            ImageUrl = "\\images\\product\\049e5cc8-2882-44a0-8e3b-6304887d569d.jpg",
                             ListPrice = 70.0,
                             Price = 65.0,
                             Price100 = 55.0,
@@ -334,7 +329,6 @@ namespace JustStore.DataAccess.Migrations
                             CategoryId = 4,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "SOTJ1111111101",
-                            ImageUrl = "\\images\\product\\049e5cc8-2882-44a0-8e3b-6304887d569d.jpg",
                             ListPrice = 30.0,
                             Price = 27.0,
                             Price100 = 20.0,
@@ -348,7 +342,6 @@ namespace JustStore.DataAccess.Migrations
                             CategoryId = 1,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "FOT000000001",
-                            ImageUrl = "\\images\\product\\049e5cc8-2882-44a0-8e3b-6304887d569d.jpg",
                             ListPrice = 25.0,
                             Price = 23.0,
                             Price100 = 20.0,
@@ -651,7 +644,7 @@ namespace JustStore.DataAccess.Migrations
 
             modelBuilder.Entity("JustStore.Models.Product", b =>
                 {
-                    b.HasOne("JustStore.Models.Categorycs", "Category")
+                    b.HasOne("JustStore.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)

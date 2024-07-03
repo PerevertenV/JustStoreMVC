@@ -10,17 +10,18 @@ using System.Threading.Tasks;
 
 namespace JustStore.DataAccess.Repository
 {
-	public class ApplicationUserRepository : Repository<ApplicationUser>, IApplicationUserRepository 
+	public class ProductImagesRepository : Repository<ProductImage>, IProductImagesRepository 
 	{
 		private AplicationDBContextcs _db;
 
-		public ApplicationUserRepository(AplicationDBContextcs? db) : base(db)
+		public ProductImagesRepository(AplicationDBContextcs? db) : base(db)
         {
 			_db = db;
         }
-		public void Update(ApplicationUser applicationUser) 
+
+		public void Update(ProductImage obj)
 		{
-			_db.applicationUser.Update(applicationUser);
+			_db.ProductImages.Update(obj);
 		}
 	}
 }
